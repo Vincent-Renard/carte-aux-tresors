@@ -13,5 +13,6 @@ public class CarteAuTresor {
 		WorldMap wm = gm.build();
 
 		wm.play();
+		wm.saveFinalOutput("src/main/resources/output/carte_output.txt");
 	}
 }

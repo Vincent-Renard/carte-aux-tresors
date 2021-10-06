@@ -6,7 +6,10 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import map.tiles.*;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,8 +51,11 @@ public class WorldMap {
 
 	}
 
-	public void printMap() {
-		System.out.printf("C - %d - %d%n", width, height);
+
+	public void saveFinalOutput(String pathOuputFile) {
+
+		List<String> lines = new ArrayList<>();
+		lines.add(String.format("C - %d - %d", width, height));
 
 		for(int x = 0; x < width; x++) {
 			for(int y = 0; y < height; y++) {
@@ -57,11 +63,24 @@ public class WorldMap {
 				if (tile instanceof Printable) {
 					var printable = (Printable) tile;
 
-					System.out.println(printable.printFinalState());
+					lines.add(printable.printFinalState());
 				}
 
 			}
 		}
+		try (FileWriter writer = new FileWriter(pathOuputFile)) {
+
+			for(String line : lines) {
+				writer.write(line + "\n");
+			}
+
+		} catch (IOException e) {
+			System.err.println("Oups");
+		}
+	}
+
+	public void printMap() {
+
 	}
 
 
@@ -75,7 +94,6 @@ public class WorldMap {
 
 
 			currentRaider = (Raider) map[currentRaider.getCoordX()][currentRaider.getCoordY()].peek();
-			System.out.println(currentDirection);
 			if (currentDirection.equals(Direction.GO_HEAD)) {
 
 				var nextY = currentRaider.getCoordY();
@@ -115,7 +133,6 @@ public class WorldMap {
 
 			raiders.set(raiderIdx, currentRaider);
 			tour++;
-			System.out.printf("Tour n°%d %n", tour);
 
 			printMap();
 		}
