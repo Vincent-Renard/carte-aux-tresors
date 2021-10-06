@@ -1,6 +1,6 @@
 package map.tiles;
 
-public class Mountain extends Tile {
+public class Mountain extends Tile implements Printable {
 
 	private static String REPRSENTATION = "M";
 

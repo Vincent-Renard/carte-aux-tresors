@@ -1,14 +1,12 @@
 package map.tiles;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Setter
 @Getter
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
-public abstract class Tile implements Franchisable, Printable {
+public abstract class Tile implements Franchisable {
 
 	int coordX;
 	int coordY;

@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum Orientation {
-	NORTH('N'), SOUTH('S'), EAST('E'), WEST('O');
+	NORTH('N'), EAST('E'), SOUTH('S'), WEST('O');
 
 	@Getter
 	private char code;
@@ -29,4 +29,10 @@ public enum Orientation {
 
 	}
 
+/**
+ * XXXX
+ * XXXX
+ * XXXX
+ * XXXX
+ */
 }

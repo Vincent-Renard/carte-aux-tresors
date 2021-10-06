@@ -5,6 +5,9 @@ import map.Orientation;
 import map.tiles.Raider;
 import map.tiles.builders.exceptions.IllegalInputException;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -22,7 +25,16 @@ public final class RaiderBuilder extends TileBuilder<Raider> {
 
 		if (matcher.groupCount() == 5) {
 			matcher.find();
-			var directions = Stream.of(matcher.group(5).toCharArray()).map(c -> c[0]).map(Direction::fromCode).collect(Collectors.toList());
+			//char[] dirs =
+			String lineDirections = matcher.group(5);
+
+			List<Direction> directions = new ArrayList<>();
+			for (char c :lineDirections.toCharArray() ){
+				directions.add(Direction.fromCode(c));
+			}
+
+
+
 			return new Raider(Integer.parseInt(matcher.group(2)),
 					Integer.parseInt(matcher.group(3)),
 					matcher.group(1),

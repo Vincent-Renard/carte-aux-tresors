@@ -6,7 +6,7 @@ import lombok.experimental.FieldDefaults;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Treasure extends Tile {
+public class Treasure extends Tile implements Printable {
 	private static final String REPRSENTATION = "T";
 	AtomicInteger quantity;
 
@@ -35,6 +35,6 @@ public class Treasure extends Tile {
 
 	@Override
 	public String printFinalState() {
-		return String.format("%s - %s - %d - %d", REPRSENTATION, getQuantity(), coordX, coordY);
+		return String.format("%s - %s - %d - %d", REPRSENTATION, coordX, coordY,getQuantity());
 	}
 }

@@ -7,12 +7,11 @@ public class CarteAuTresor {
 
 
 	public static void main(String... args) throws IOException {
-		System.out.println("Hello ");
 
-		GameBuilder gm = new GameBuilder("src/main/resources/carte_input.txt");
+		GameBuilder gm = new GameBuilder("src/main/resources/input/carte_input.txt");
 
 		WorldMap wm = gm.build();
 
-		wm.printMap();
+		wm.play();
 	}
 }
