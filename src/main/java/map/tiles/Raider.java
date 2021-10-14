@@ -7,13 +7,16 @@ import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import map.Orientation;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Deque;
+import java.util.List;
 
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Raider extends Tile implements Printable {
 
-	private static String REPRSENTATION = "A";
+	private static final String REPRESENTATION = "A";
 
 	@Getter
 	String name;
@@ -43,7 +46,7 @@ public class Raider extends Tile implements Printable {
 	@Override
 	public String printFinalState() {
 		return String.format("%s - %s - %d - %d - %s - %d %s",
-				REPRSENTATION, name, coordX, coordY, orientation.getCode(), this.treasures, Arrays.toString(this.directions.toArray()));
+				REPRESENTATION, name, coordX, coordY, orientation.getCode(), this.treasures, Arrays.toString(this.directions.toArray()));
 	}
 
 	public boolean hasMoreWalks() {
@@ -68,7 +71,7 @@ public class Raider extends Tile implements Printable {
 			idx = 1;
 		}
 
-		orientation = Orientation.values()[(List.of(Orientation.values()).indexOf(orientation) + idx + 4)% 4];
+		orientation = Orientation.values()[(List.of(Orientation.values()).indexOf(orientation) + idx + 4) % 4];
 
 
 	}

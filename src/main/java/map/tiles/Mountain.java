@@ -2,7 +2,7 @@ package map.tiles;
 
 public class Mountain extends Tile implements Printable {
 
-	private static String REPRSENTATION = "M";
+	private static final String REPRESENTATION = "M";
 
 	public Mountain(int coordX, int coordY) {
 		super(coordX, coordY);
@@ -15,6 +15,6 @@ public class Mountain extends Tile implements Printable {
 
 	@Override
 	public String printFinalState() {
-		return String.format("%s - %d - %d", REPRSENTATION, coordX, coordY);
+		return String.format("%s - %d - %d", REPRESENTATION, coordX, coordY);
 	}
 }

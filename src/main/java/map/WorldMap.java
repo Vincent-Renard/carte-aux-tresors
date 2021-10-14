@@ -3,6 +3,7 @@ package map;
 
 import core.Direction;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import map.tiles.*;
 
@@ -16,7 +17,9 @@ import java.util.stream.Collectors;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class WorldMap {
+	@Getter
 	final int width;
+	@Getter
 	final int height;
 
 	Deque<Tile>[][] map;
@@ -44,8 +47,8 @@ public class WorldMap {
 	public void fillMap(List<Tile> gameInput) {
 		this.fillInitialMap();
 
-		raiders = gameInput.stream().filter(tile -> tile instanceof Raider)
-				.map(raider -> (Raider) raider)
+		raiders = gameInput.stream().filter(Raider.class::isInstance)
+				.map(Raider.class::cast)
 				.collect(Collectors.toList());
 		gameInput.forEach(tile -> map[tile.getCoordX()][tile.getCoordY()].push(tile));
 
@@ -79,10 +82,21 @@ public class WorldMap {
 		}
 	}
 
-	public void printMap() {
-
+	private boolean isNextIsNorthBorder(int y) {
+		return y - 1 != -1;
 	}
 
+	private boolean isNextIsSouthBorder(int y) {
+		return y + 1 != height;
+	}
+
+	private boolean isNextIsWestBorder(int x) {
+		return x - 1 != 0;
+	}
+
+	private boolean isNextIsEastBorder(int x) {
+		return x + 1 != width;
+	}
 
 	public void play() {
 		int tour = 0;
@@ -98,16 +112,16 @@ public class WorldMap {
 
 				var nextY = currentRaider.getCoordY();
 				var nextX = currentRaider.getCoordX();
-				if (currentRaider.getOrientation().equals(Orientation.NORTH) && nextY - 1 != -1) {
+				if (currentRaider.getOrientation().equals(Orientation.NORTH) && isNextIsNorthBorder(nextY)) {
 					nextY--;
 				}
-				if (currentRaider.getOrientation().equals(Orientation.SOUTH) && nextY + 1 != height) {
+				if (currentRaider.getOrientation().equals(Orientation.SOUTH) && isNextIsSouthBorder(nextY)) {
 					nextY++;
 				}
-				if (currentRaider.getOrientation().equals(Orientation.WEST) && nextX - 1 != 0) {
+				if (currentRaider.getOrientation().equals(Orientation.WEST) && isNextIsWestBorder(nextX)) {
 					nextX--;
 				}
-				if (currentRaider.getOrientation().equals(Orientation.EAST) && nextX + 1 != width) {
+				if (currentRaider.getOrientation().equals(Orientation.EAST) && isNextIsEastBorder(nextX)) {
 					nextX++;
 				}
 				if (map[nextX][nextY].peek().isFranchissable()) {
@@ -122,11 +136,11 @@ public class WorldMap {
 
 			currentRaider = (Raider) map[currentRaider.getCoordX()][currentRaider.getCoordY()].pop();
 
-			if ( map[currentRaider.getCoordX()][currentRaider.getCoordY()].peek() instanceof Treasure) {
+			if (map[currentRaider.getCoordX()][currentRaider.getCoordY()].peek() instanceof Treasure) {
 				var treasure = (Treasure) map[currentRaider.getCoordX()][currentRaider.getCoordY()].pop();
 				if (treasure.pickTreasure())
 					currentRaider.takeTreasure();
-				if (treasure.getQuantity()>0)
+				if (treasure.getQuantity() > 0)
 					map[currentRaider.getCoordX()][currentRaider.getCoordY()].push(treasure);
 			}
 			map[currentRaider.getCoordX()][currentRaider.getCoordY()].push(currentRaider);
@@ -134,7 +148,6 @@ public class WorldMap {
 			raiders.set(raiderIdx, currentRaider);
 			tour++;
 
-			printMap();
 		}
 
 	}

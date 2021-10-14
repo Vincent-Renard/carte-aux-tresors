@@ -12,7 +12,6 @@ import map.tiles.builders.TreasureBuilder;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -21,15 +20,16 @@ import java.util.stream.Stream;
 public final class GameBuilder {
 
 
+	public static final char COMMENT_CHAR = '#';
 	static final RaiderBuilder raiderBuilder = new RaiderBuilder();
 	static final TreasureBuilder treasureBuilder = new TreasureBuilder();
 	static final MountainBuilder mountainBuilder = new MountainBuilder();
 	static final MapBuilder mapBuilder = new MapBuilder();
+	private static final char MAP_HEADER_CHAR = 'C';
 	final String pathFilename;
-	List<Tile> tiles;
+
 
 	public GameBuilder(String pathIntputMapFile) {
-		this.tiles = new ArrayList<>();
 		this.pathFilename = pathIntputMapFile;
 
 	}
@@ -40,11 +40,11 @@ public final class GameBuilder {
 			inputs = lines.collect(Collectors.toList());
 		}
 
-		String mapLine = inputs.stream().filter(input -> input.charAt(0) == 'C').findAny().orElseThrow(() -> new IllegalArgumentException("No map line found"));
+		String mapLine = inputs.stream().filter(input -> input.charAt(0) == MAP_HEADER_CHAR).findAny().orElseThrow(() -> new IllegalArgumentException("No map header found"));
 		inputs.remove(mapLine);
 		var map = mapBuilder.from(mapLine);
 
-		var tiles = inputs.stream().filter(input -> input.charAt(0) != '#')
+		var tiles = inputs.stream().filter(input -> input.charAt(0) != COMMENT_CHAR)
 				.map(this::buildTile)
 				.collect(Collectors.toList());
 

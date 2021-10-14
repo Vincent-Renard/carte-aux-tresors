@@ -7,7 +7,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Treasure extends Tile implements Printable {
-	private static final String REPRSENTATION = "T";
+	private static final String REPRESENTATION = "T";
+
 	AtomicInteger quantity;
 
 	public Treasure(int coordX, int coordY, int qty) {
@@ -35,6 +36,6 @@ public class Treasure extends Tile implements Printable {
 
 	@Override
 	public String printFinalState() {
-		return String.format("%s - %s - %d - %d", REPRSENTATION, coordX, coordY,getQuantity());
+		return String.format("%s - %s - %d - %d", REPRESENTATION, coordX, coordY, getQuantity());
 	}
 }

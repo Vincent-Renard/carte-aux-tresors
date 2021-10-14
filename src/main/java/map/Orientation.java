@@ -9,7 +9,7 @@ public enum Orientation {
 	NORTH('N'), EAST('E'), SOUTH('S'), WEST('O');
 
 	@Getter
-	private char code;
+	private final char code;
 
 	public static Orientation fromCode(String code) {
 
